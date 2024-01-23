@@ -1,0 +1,17 @@
+{
+  "name": "02-bases",
+  "version": "0.0.1",
+  "description": "Primeros pasos de verdad con node",
+  "main": "app.js",
+  "scripts": {
+    "start": "node  src/app.js",
+    "dev": "echo 'hello world from dev'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "js"
+  ],
+  "author": "Emanuel Campos Jasso",
+  "license": "ISC"
+}
