@@ -4,9 +4,49 @@
  */
 
 // 01-template.js is not necessary to write the extension
-const templateExports = require('./js-foundation/01-template') // contiene todo lo que se exporto en el archivo
+// require('./js-foundation/01-template') // contiene todo lo que se exporto en el archivo
 
 
-console.log(templateExports) // imprime el objeto que se exporto
+// console.log(templateExports) // imprime el objeto que se exporto
 
-console.log(templateExports.emailTemplate) // imprime el string que se exporto
+// console.log(templateExports.emailTemplate) // imprime el string que se exporto
+
+
+
+//DESTRUCTURING
+// require('./js-foundation/02-destructuring')
+
+// const { getUserById } = require('./js-foundation/03-callbacks')
+
+// getUserById(1, (error, user) => {
+//   if (error) {
+//     throw new Error(error)
+//   }
+
+//   console.log('User', user)
+// })
+
+
+
+// Factory Functions
+
+// const { getUuid, getAge } = require('./adapters')
+// const { buildMakePerson } = require('./js-foundation/05-factory')
+
+// const data = { name: 'John', birthDate: '1994-01-30' }
+
+// const makePerson = buildMakePerson({ getUuid, getAge })
+
+// const person = makePerson(data)
+
+// console.log(person)
+
+
+// Promises
+
+const { getPokemonById } = require('./js-foundation/06-promises')
+
+getPokemonById(100)
+  .then(pokemon => console.log(pokemon))
+  .catch(error => console.log(error.message))
+  .finally(() => console.log('End of the promise'))
