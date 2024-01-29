@@ -1,0 +1,32 @@
+{
+  "name": "02-bases",
+  "version": "0.0.1",
+  "description": "Primeros pasos de verdad con node",
+  "main": "app.js",
+  "scripts": {
+    "start": "npm run dev && node dist/app.js",
+    "dev": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf ./dist && tsc"
+  },
+  "keywords": [
+    "node",
+    "js",
+    "typescript"
+  ],
+  "author": "Emanuel Campos Jasso",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.11.7",
+    "@types/uuid": "^9.0.8",
+    "nodemon": "^3.0.3",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "-": "^0.0.1",
+    "get-age": "^1.0.1",
+    "ts-node": "^10.9.2",
+    "uuid": "^9.0.1"
+  }
+}
