@@ -1,5 +1,5 @@
-import { LogEntity, LogSeverityLevel } from "../../entities/log.entity";
-import { LogRepository } from "../../repositories/log.repository";
+import { LogEntity, LogSeverityLevel } from '../../entities/log.entity';
+import { LogRepository } from '../../repositories/log.repository';
 
 interface CheckServiceUseCase {
   execute(url: string): Promise<boolean>;
@@ -17,9 +17,10 @@ export class CheckService implements CheckServiceUseCase {
   ) {}
 
   async execute(url: string): Promise<boolean> {
+    const origin = 'check-service.ts';
+    
     try {
       const req = await fetch(url);
-      const origin = "check-service.ts";
 
       if (!req.ok) {
         throw new Error(`Error on check service: ${url}`);

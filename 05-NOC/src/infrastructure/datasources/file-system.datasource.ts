@@ -1,12 +1,12 @@
-import { LogDataSource } from "../../domain/datasources/log.datasource";
-import { LogEntity, LogSeverityLevel } from "../../domain/entities/log.entity";
-import fs from "fs";
+import { LogDataSource } from '../../domain/datasources/log.datasource';
+import { LogEntity, LogSeverityLevel } from '../../domain/entities/log.entity';
+import fs from 'fs';
 
 export class FileSystemDataSource implements LogDataSource {
-  private readonly logPath: string = "logs/";
-  private readonly allLogsPath = "logs/low.log";
-  private readonly mediumLogsPath = "logs/medium.log";
-  private readonly highLogsPath = "logs/high.log";
+  private readonly logPath: string = 'logs/';
+  private readonly allLogsPath = 'logs/low.log';
+  private readonly mediumLogsPath = 'logs/medium.log';
+  private readonly highLogsPath = 'logs/high.log';
 
   constructor() {
     this.createLogFiles();
@@ -20,7 +20,7 @@ export class FileSystemDataSource implements LogDataSource {
     [this.allLogsPath, this.mediumLogsPath, this.highLogsPath].forEach(
       (path) => {
         if (!fs.existsSync(path)) {
-          fs.writeFileSync(path, "");
+          fs.writeFileSync(path, '');
         }
       }
     );
@@ -54,14 +54,16 @@ export class FileSystemDataSource implements LogDataSource {
         return this.getLogsFromFile(this.highLogsPath);
 
       default:
-        throw new Error("Invalid severity level");
+        throw new Error('Invalid severity level');
     }
   }
 
   private getLogsFromFile(path: string): LogEntity[] {
-    const content = fs.readFileSync(path, "utf-8");
+    const content = fs.readFileSync(path, 'utf-8');
 
-    const logs = content.split("\n").map(LogEntity.fromJson);
+    if(!content) return [];
+
+    const logs = content.split('\n').map(LogEntity.fromJson);
 
     return logs;
   }
