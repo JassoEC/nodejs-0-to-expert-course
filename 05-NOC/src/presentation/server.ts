@@ -38,15 +38,15 @@ export class Server {
       // const url = "http://localhost:3000/";
       const url = 'https://www.google.com';
 
-      new CheckServiceMultiple(
-        [
-          postgresLogRepository,
-          mongoLogRepository,
-          fsLogRepository,
-        ],
-        () => console.log(`Success on check service: ${url}`),
-        (error) => console.error(error)
-      ).execute(url);
+      // new CheckServiceMultiple(
+      //   [
+      //     postgresLogRepository,
+      //     mongoLogRepository,
+      //     fsLogRepository,
+      //   ],
+      //   () => console.log(`Success on check service: ${url}`),
+      //   (error) => console.error(error)
+      // ).execute(url);
     });
 
     // const logs = await logRepository.getLogs(LogSeverityLevel.low);
