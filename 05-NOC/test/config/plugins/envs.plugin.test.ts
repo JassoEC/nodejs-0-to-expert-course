@@ -20,4 +20,19 @@ describe('EnvsPlugin', () => {
     });
     
   });
+
+  test('should return error if not found', async() => {
+
+
+    jest.resetModules();
+    process.env.PORT = 'ABC'
+
+    try{
+      await import ('../../../src/configs/plugins/envs.plugin');
+      expect(true).toBe(false);
+
+    }catch(e){
+      expect(`${e}`).toContain('"PORT" should be a valid integer');
+    }
+  })
 });
