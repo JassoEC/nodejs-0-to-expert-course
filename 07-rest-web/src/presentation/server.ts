@@ -9,6 +9,7 @@ interface Options {
 
 export class Server {
   private app = express();
+  private compression = require("compression");
   private readonly port: number;
   private readonly publicPath: string;
   private readonly routes: Router;
@@ -22,6 +23,7 @@ export class Server {
 
   async start() {
     //middlewares
+    this.app.use(this.compression());
     this.app.use(express.json()); //raw
     this.app.use(express.urlencoded({ extended: true })); //www-form-urlencoded
 
