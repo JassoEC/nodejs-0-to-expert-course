@@ -3,12 +3,7 @@ import { AuthController } from './controller';
 import { envs } from '../../config';
 import { AuthService, EmailService } from '../services';
 
-
-
-
 export class AuthRoutes {
-
-
   static get routes(): Router {
 
     const router = Router();
