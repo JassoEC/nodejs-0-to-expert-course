@@ -1,27 +1,50 @@
 import { CategoryModel } from "../../data";
-import { CreateCategoryDto, CustomError, UserEntity } from "../../domain";
-import { CategoryEntity } from "../../domain/entities/category.entity";
+import { CreateCategoryDto, CustomError, PaginationDto, UserEntity } from "../../domain";
 
-export class CategoryService{
-  constructor(){}
+export class CategoryService {
+  constructor() { }
 
-  async getCategories(){
+  async getCategories(dto: PaginationDto) {
+
+    const { page, limit } = dto;
+
     try {
-      const categories = await CategoryModel.find();
 
-      return categories.map((category) => CategoryEntity.fromObject(category))
-      
+      const [categories, total] = await Promise.all([
+        CategoryModel
+          .find()
+          .skip((page - 1) * limit)
+          .limit(limit),
+        CategoryModel.countDocuments()
+      ])
+
+      return {
+        limit,
+        page,
+        total,
+        next: `/categories?page=${page + 1}&limit=${limit}`,
+        prev: page > 1 ? `/categories?page=${page - 1}&limit=${limit}` : null,
+        categories: categories.map((category) => {
+          const { available, name, id } = category;
+          return {
+            id,
+            name,
+            available,
+          }
+        })
+      }
+
     } catch (error) {
       throw CustomError.internalServer(`${error}`);
     }
   }
 
-  async createCategory(dto:CreateCategoryDto, user: UserEntity){
+  async createCategory(dto: CreateCategoryDto, user: UserEntity) {
     const categoryExists = await CategoryModel.findOne({
       name: dto.name,
     });
 
-    if(categoryExists) throw CustomError.badRequest('Category already exists');
+    if (categoryExists) throw CustomError.badRequest('Category already exists');
 
     try {
       const category = new CategoryModel({
@@ -31,12 +54,12 @@ export class CategoryService{
 
       await category.save();
 
-      return{
+      return {
         id: category._id,
         name: category.name,
         available: category.available,
       }
-      
+
     } catch (error) {
       throw CustomError.internalServer(`${error}`);
     }
