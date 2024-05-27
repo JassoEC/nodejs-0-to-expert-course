@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <h1>Web socket <small>Disconnected</small></h1>
+
+  <form>
+
+    <input type="text"
+           placeholder="Enviar mensaje">
+    <button>enviar</button>
+  </form>
+  <ul id="messages"></ul>
+</body>
+
+<script>
+  let socket = null
+  const form = document.querySelector('form');
+  const input = document.querySelector('input');
+  const statusElem = document.querySelector('small');
+
+  const sendMessage = (message) => {
+    socket.send(message);
+  };
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    sendMessage(input.value);
+    input.value = '';
+  });
+
+  function connectToWss() {
+    socket = new WebSocket('ws://localhost:3000');
+
+
+    socket.onopen = (event) => {
+      statusElem.textContent = 'ONLINE';
+    };
+
+    socket.onclose = (event) => {
+      statusElem.textContent = 'DISCONNECTED';
+      setTimeout(() => {
+        connectToWss();
+      }, 1500);
+    };
+
+
+    socket.onmessage = (event) => {
+
+      const payload = JSON.parse(event.data);
+
+      const messages = document.querySelector('#messages');
+      const li = document.createElement('li');
+      li.textContent = payload.data;
+      messages.appendChild(li);
+    };
+  }
+
+  connectToWss();
+</script>
+
+</html>

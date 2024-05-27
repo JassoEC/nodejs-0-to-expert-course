@@ -1,19 +1,19 @@
-import { WebSocketServer } from 'ws';
+import WebSocket, { WebSocketServer } from 'ws';
 
 const wss = new WebSocketServer({ port: 3000 });
 
 wss.on('connection', function connection(ws) {
-    console.log('connected');
-
     ws.on('error', console.error);
 
-    ws.on('message', function message(data) {
-        console.log('received: %s', data);
+    ws.on('message', function message(data, isBinary = false) {
+        const payload = JSON.stringify({
+            type: 'custom-message',
+            data: data.toString(),
+        });
+        wss.clients.forEach(function each(client) {
+            if (client !== ws && client.readyState === WebSocket.OPEN) {
+                client.send(payload, { binary: isBinary });
+            }
+        });
     });
-
-    // setInterval(() => {
-    //     ws.send('hello from server, again...');
-    // }, 2000);
-
-    ws.send('hello from server');
 });
