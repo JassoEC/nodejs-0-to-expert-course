@@ -1,32 +1,29 @@
-import mongoose from 'mongoose'
-import { MongoDatabase } from '../../../src/data/mongo/init'
+import mongoose from "mongoose";
+import { MongoDatabase } from "../../../src/data/mongo/init";
 
-describe('App can connect with mongodb', () => { 
+describe("App can connect with mongodb", () => {
+  afterAll(() => {
+    mongoose.connection.close();
+  });
 
-  afterAll(()=>{
-    mongoose.connection.close()
-  })
-
-  test('should connect to the database', async () => {
+  test("should connect to the database", async () => {
     const connected = await MongoDatabase.connect({
       mongoUrl: process.env.MONGO_URL!,
-      dbName: process.env.DB_NAME!
-    })
+      dbName: process.env.DB_NAME!,
+    });
 
+    expect(connected).toBe(true);
+  });
 
-    expect(connected).toBe(true)
-  })
-
-
-  test('connection should throw an error', async () => {
+  test("connection should throw an error", async () => {
     try {
-      await MongoDatabase.connect({
-        mongoUrl: 'mongodb://emanuel:123456@localhostttt:27017',
-        dbName: 'NOC-TEST'
-      })
+      const connect = await MongoDatabase.connect({
+        mongoUrl: "mongodb://emanuel:123456@localhostttt:27017",
+        dbName: "NOC-TEST",
+      });
+      expect(connect).toBe(false);
     } catch (error) {
-      expect(error).toBeDefined()
+      expect(error).toBeDefined();
     }
-  })
-
- })
+  });
+});

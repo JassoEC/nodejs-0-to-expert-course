@@ -2,7 +2,8 @@ node_modules
 # Keep environment variables out of version control
 .env
 
-mongo-test
+/mongo-test
+/postgres-test
 
-postgres-test
-
+/mongo
+/postgres
