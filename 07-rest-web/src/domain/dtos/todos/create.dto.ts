@@ -6,6 +6,10 @@ export class CreateTodoDto {
       return ["Text is required", undefined];
     }
 
+    if (props.text.length === 0) {
+      return ["Text is required", undefined];
+    }
+
     return [undefined, new CreateTodoDto(props.text)];
   }
 }

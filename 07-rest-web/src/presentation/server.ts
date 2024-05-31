@@ -8,7 +8,8 @@ interface Options {
 }
 
 export class Server {
-  private app = express();
+  public readonly app = express();
+  private serverListener?: any;
   private compression = require("compression");
   private readonly port: number;
   private readonly publicPath: string;
@@ -41,8 +42,12 @@ export class Server {
       res.sendFile(indexPath);
     });
 
-    this.app.listen(this.port, () => {
+    this.serverListener = this.app.listen(this.port, () => {
       console.log("Server is running on port 3000");
     });
+  }
+
+  public close() {
+    this.serverListener?.close();
   }
 }
